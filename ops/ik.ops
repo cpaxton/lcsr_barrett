@@ -16,6 +16,8 @@ connect("barrett_manager.wam.position_out", "ikcon.positions_in", ConnPolicy());
 // torques out
 // trajectories out -- already handled in comp_manual.ops for now
 
+connect("ikcon.positions_out","rml_traj.joint_position_cmd_in", ConnPolicy());
+
 
 /* input from phantom or space nav remapped to goal_frame */
 ikcon.target_frame = "goal_frame";
