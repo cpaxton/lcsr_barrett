@@ -42,3 +42,4 @@ scheme.enableBlock("rml_traj",true);
 /* Calibrate joint positions */
 barrett_manager.wam.initialize()
 barrett_manager.wam.run()
+
