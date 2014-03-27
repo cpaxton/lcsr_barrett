@@ -61,6 +61,5 @@
     $(arg oro_prefix)ik:
       root_link: $(arg tf_prefix)/base_link
       tip_link: $(arg tf_prefix)/wrist_palm_link
-      target_frame: $(arg tf_prefix)/cmd
   </rosparam>
 </launch>
