@@ -17,7 +17,7 @@ scheme.configure();
 
 /* Load barrett manager, 7-dof wam */
 runScript(ros.find("lcsr_barrett")+"/ops/barrett_sim_manager.ops");
-runScript(ros.find("lcsr_barrett")+"/ops/wam7.ops");
+runScript(ros.find("lcsr_barrett")+"/ops/wam7x2.ops");
 load_effort_sum("");
 
 /* Load controllers */
