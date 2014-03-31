@@ -1,0 +1,44 @@
+import("rtt_ros");
+ros.import("lcsr_barrett");
+
+/* Set up TF component */
+import("rtt_tf")
+loadComponent("tf","rtt_tf::RTT_TF")
+tf.configure()
+tf.start()
+
+/* Create the conman scheme */
+loadComponent("scheme","conman::Scheme");
+scheme.setPeriod(0.001);
+loadService("scheme","sim_clock_activity");
+loadService("scheme","conman_ros");
+scheme.configure();
+
+/* Load barrett manager, 7-dof wam */
+runScript(ros.find("lcsr_barrett")+"/ops/barrettx2_sim_manager.ops");
+runScript(ros.find("lcsr_barrett")+"/ops/wam7x2.ops");
+load_effort_sum("w1");
+load_effort_sum("w2");
+
+/* Load controllers */
+runScript(ros.find("lcsr_barrett")+"/ops/controllers.ops");
+load_controllers("w1");
+load_controllers("w2");
+
+/* Start the Scheme */
+scheme.start();
+
+/* Set of initially running blocks */
+scheme.enableBlock("w1devices",true);
+scheme.enableBlock("w1ik_control",true);
+scheme.enableBlock("w2devices",true);
+scheme.enableBlock("w2ik_control",true);
+
+stream("w1ik.trajectories_out",ros.topic("wam1/ik/trajectories_out"))
+stream("w2ik.trajectories_out",ros.topic("wam2/ik/trajectories_out"))
+
+/* Start the WAM */
+w1barrett_manager.wam.initialize()
+w1barrett_manager.wam.run()
+w2barrett_manager.wam.initialize()
+w2barrett_manager.wam.run()
