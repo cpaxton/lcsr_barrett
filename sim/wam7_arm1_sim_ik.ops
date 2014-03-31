@@ -1,0 +1,57 @@
+import("rtt_ros");
+ros.import("lcsr_barrett");
+ros.import("conman_blocks");
+
+/* Set up TF component */
+import("rtt_tf")
+loadComponent("tf","rtt_tf::RTT_TF")
+tf.configure()
+tf.start()
+
+/* Create the conman scheme */
+loadComponent("scheme","conman::Scheme");
+scheme.setPeriod(0.001);
+loadService("scheme","sim_clock_activity");
+loadService("scheme","conman_ros");
+scheme.configure();
+
+/* Load barrett manager, 7-dof wam: get ROS Parameters */
+loadService("w1barrett_manager","rosparam");
+w1barrett_manager.rosparam.getAll();
+w1barrett_manager.rosparam.getAbsolute("robot_description");
+configureComponent("w1barrett_manager");
+
+/* Configure conman interface */
+addPeer("scheme","w1barrett_manager");
+scheme.addGroup("devices");
+scheme.addToGroup("w1barrett_manager","devices");
+scheme.latchInputs("w1barrett_manager",true);
+w1barrett_manager.conman_hook.setInputExclusivity("wam1.effort_in",1)
+
+/* Load the feedforward/feedback filter */
+export void load_effort_sum(string prefix) {
+  loadComponent(prefix+"effort_sum","conman_blocks::FeedForwardFeedBack");
+  connect(prefix+"effort_sum.sum_out", prefix+"barrett_manager.wam.effort_in", ConnPolicy());
+  configureComponent(prefix+"effort_sum");
+
+  addPeer("scheme",prefix+"effort_sum");
+  scheme.addToGroup(prefix+"effort_sum","devices");
+}
+load_effort_sum("w1");
+
+/* Load controllers */
+runScript(ros.find("lcsr_barrett")+"/ops/controllers.ops");
+load_controllers("w1");
+
+/* Start the Scheme */
+scheme.start();
+
+/* Set of initially running blocks */
+scheme.enableBlock("devices",true);
+scheme.enableBlock("w1ik_control",true);
+
+stream("w1ik.trajectories_out",ros.topic("wam1/ik/trajectories_out"))
+
+/* Start the WAM */
+w1barrett_manager.wam.initialize()
+w1barrett_manager.wam.run()

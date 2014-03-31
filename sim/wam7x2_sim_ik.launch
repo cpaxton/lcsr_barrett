@@ -28,12 +28,21 @@
   </include>
 
   <!-- Load WAM URDF -->
-  <param name="robot_description" 
-    command="$(find xacro)/xacro.py '$(find lcsr_barrett)/sim/wam7x2_sim.urdf.xacro' prefix1:=wam1 prefix2:=wam2 ops_script:='$(find lcsr_barrett)/sim/wam7x2_sim_ik.ops' hand:=$(arg hand)" />
+  <param name="wam1_robot_description" 
+    command="$(find xacro)/xacro.py '$(find lcsr_barrett)/sim/wam7_sim.urdf.xacro' prefix:=wam1 xyz:='0.04 0.46 1' man_prefix:=w1 ops_script:='$(find lcsr_barrett)/sim/wam7_arm1_sim_ik.ops' hand:=$(arg hand)" />
 
   <!-- Spawn the robot in Gazebo -->
   <node name="$(anon urdf_spawner)" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
-    args="-urdf -model wam -param robot_description"/>
+    args="-urdf -model wam1 -param wam1_robot_description"/>
+
+  <!-- Load WAM URDF -->
+  <param name="wam2_robot_description" 
+    command="$(find xacro)/xacro.py '$(find lcsr_barrett)/sim/wam7_sim.urdf.xacro' prefix:=wam2 man_prefix:=w1 xyz:='0.04 -0.46 1' ops_script:='$(find lcsr_barrett)/sim/wam7_arm2_sim_ik.ops' hand:=$(arg hand)" />
+
+  <!-- Spawn the robot in Gazebo -->
+  <node name="$(anon urdf_spawner)" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
+    args="-urdf -model wam2 -param wam2_robot_description"/>
+
 
   <!-- Spawn the lcsr stage in Gazebo -->
   <param name="stage_model" 
