@@ -29,9 +29,8 @@ load_controllers("w2");
 scheme.start();
 
 /* Set of initially running blocks */
-scheme.enableBlock("w1devices",true);
+scheme.enableBlock("devices",true);
 scheme.enableBlock("w1ik_control",true);
-scheme.enableBlock("w2devices",true);
 scheme.enableBlock("w2ik_control",true);
 
 stream("w1ik.trajectories_out",ros.topic("wam1/ik/trajectories_out"))
