@@ -25,6 +25,7 @@
     <arg name="use_sim_time" value="true"/>
     <arg name="headless" value="false"/>
     <arg name="world_name" value="$(find lcsr_barrett)/sim/wam.world"/>
+    <arg name="debug" value="$(arg debug)" />
   </include>
 
   <!-- Load WAM URDF -->
