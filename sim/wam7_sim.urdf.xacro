@@ -7,7 +7,13 @@
       <component>
         <package>oro_barrett_sim</package>
         <type>oro_barrett_sim::BarrettSimManager</type>
-        <name>$(arg barrett_manager</name>
+        <xacro:if value="$(arg use_man_prefix)">
+          <name>$(arg man_prefix)barrett_manager</name>
+        </xacro:if>
+        <xacro:unless value="$(arg use_man_prefix)">
+          <name>barrett_manager</name>
+        </xacro:unless>
+
       </component>
       <orocosScript><filename>$(arg ops_script)</filename></orocosScript>
       <!--
