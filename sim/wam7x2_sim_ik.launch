@@ -29,7 +29,7 @@
 
   <!-- Load WAM URDF -->
   <param name="robot_description" 
-    command="$(find xacro)/xacro.py '$(find lcsr_barrett)/sim/wam7_sim.urdf.xacro' prefix:=wam use_man_prefix:=false man_prefix:=na xyz:='0.04 0.46 1' ops_script:='$(find lcsr_barrett)/sim/wam7_sim_ik.ops' hand:=$(arg hand)" />
+    command="$(find xacro)/xacro.py '$(find lcsr_barrett)/sim/wam7_sim.urdf.xacro' prefix:=wam man_name:=barrett_manager xyz:='0.04 0.46 1' ops_script:='$(find lcsr_barrett)/sim/wam7_sim_ik.ops' bhand_script:='$(find lcsr_barrett)/sim/bhand_sim.ops' hand:=$(arg hand)" />
 
   <!-- Spawn the robot in Gazebo -->
   <node name="$(anon urdf_spawner)" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
@@ -37,8 +37,9 @@
 
   <!-- Load WAM URDF -->
   <param name="wam2_robot_description" 
-    command="$(find xacro)/xacro.py '$(find lcsr_barrett)/sim/wam7_sim.urdf.xacro' use_man_prefix:=true prefix:=wam2 man_prefix:=w2 xyz:='0.04 -0.46 1' ops_script:='$(find lcsr_barrett)/sim/wam7_arm2_sim_ik.ops' hand:=$(arg hand)" />
-
+    command="$(find xacro)/xacro.py '$(find lcsr_barrett)/sim/wam7_sim.urdf.xacro' use_man_prefix:=true prefix:=wam2 man_prefix:=w2 xyz:='0.04 -0.46 1' ops_script:='$(find lcsr_barrett)/sim/wam7_arm2_sim_ik.ops' hand:=$(arg hand) man_name:=w2barrett_manager bhand_script:='$(find lcsr_barrett)/sim/bhand_arm2_sim.ops'" />
+<!--sim/wam7_arm2_sim_ik.ops-->
+  
   <!-- Spawn the robot in Gazebo -->
   <node name="$(anon urdf_spawner)" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
     args="-urdf -model wam2 -param wam2_robot_description"/>
@@ -63,10 +64,15 @@
       <arg name="hand" value="$(arg hand)"/>
       <arg name="tf_prefix" value="wam2"/>
       <arg name="oro_prefix" value="w2"/>
+      <arg name="desc_prefix" value="wam2_"/>
     </include>
 
     <!-- RTT Component parameters -->
-    <include file="$(find lcsr_barrett)/sim/orocos_component_params.launch"/>
+    <include file="$(find lcsr_barrett)/sim/orocos_component_params.launch">
+      <arg name="tf_prefix" value="wam"/>
+      <arg name="oro_prefix" value=""/>
+    </include>
+    <!-- this is fine; not causing errors. -->
     <include file="$(find lcsr_barrett)/sim/orocos_component_params.launch">
       <arg name="tf_prefix" value="wam2"/>
       <arg name="oro_prefix" value="w2"/>

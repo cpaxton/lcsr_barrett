@@ -7,12 +7,12 @@
       <component>
         <package>oro_barrett_sim</package>
         <type>oro_barrett_sim::BarrettSimManager</type>
-        <xacro:if value="$(arg use_man_prefix)">
+        <!--<xacro:if value="$(arg use_man_prefix)">
           <name>$(arg man_prefix)barrett_manager</name>
         </xacro:if>
-        <xacro:unless value="$(arg use_man_prefix)">
-          <name>barrett_manager</name>
-        </xacro:unless>
+        <xacro:unless value="$(arg use_man_prefix)">-->
+        <name>$(arg man_name)</name>
+        <!--</xacro:unless>-->
 
       </component>
       <orocosScript><filename>$(arg ops_script)</filename></orocosScript>
@@ -25,7 +25,8 @@
          -</orocosScript>
          -->
        <xacro:if value="$(arg hand)">
-         <orocosScript><filename>$(find lcsr_barrett)/sim/bhand_sim.ops</filename></orocosScript>
+         <!--<orocosScript><filename>$(find lcsr_barrett)/sim/bhand_sim.ops</filename></orocosScript>-->
+         <orocosScript><filename>$(arg bhand_script)</filename></orocosScript>
          <!--
            -<orocosScript>
            -  <inline>
