@@ -25,25 +25,27 @@
     <arg name="use_sim_time" value="true"/>
     <arg name="headless" value="false"/>
     <arg name="world_name" value="$(find lcsr_barrett)/sim/wam.world"/>
+    <arg name="debug" value="$(arg debug)"/>
   </include>
 
   <!-- Load WAM URDF -->
-  <param name="robot_description" 
-    command="$(find xacro)/xacro.py '$(find lcsr_barrett)/sim/wam7_sim.urdf.xacro' prefix:=wam man_name:=barrett_manager xyz:='0.04 0.46 1' ops_script:='$(find lcsr_barrett)/sim/wam7_sim_ik.ops' bhand_script:='$(find lcsr_barrett)/sim/bhand_sim.ops' hand:=$(arg hand)" />
+  <group ns="gazebo">
+    <param name="barrett_manager/robot_description" 
+      command="$(find xacro)/xacro.py '$(find lcsr_barrett)/sim/wam7_sim.urdf.xacro' prefix:=wam component_name:=barrett_manager xyz:='0.04 0.46 1' ops_script:='$(find lcsr_barrett)/sim/wam7_sim_ik.ops' bhand_script:='$(find lcsr_barrett)/sim/bhand_sim.ops' hand:=$(arg hand)" />
 
-  <!-- Spawn the robot in Gazebo -->
-  <node name="$(anon urdf_spawner)" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
-    args="-urdf -model wam -param robot_description"/>
+    <!-- Spawn the robot in Gazebo -->
+    <node name="$(anon urdf_spawner)" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
+      args="-urdf -model wam -param barrett_manager/robot_description"/>
 
-  <!-- Load WAM URDF -->
-  <param name="wam2_robot_description" 
-    command="$(find xacro)/xacro.py '$(find lcsr_barrett)/sim/wam7_sim.urdf.xacro' use_man_prefix:=true prefix:=wam2 man_prefix:=w2 xyz:='0.04 -0.46 1' ops_script:='$(find lcsr_barrett)/sim/wam7_arm2_sim_ik.ops' hand:=$(arg hand) man_name:=w2barrett_manager bhand_script:='$(find lcsr_barrett)/sim/bhand_arm2_sim.ops'" />
+    <!-- Load WAM URDF -->
+    <param name="w2barrett_manager/robot_description" 
+      command="$(find xacro)/xacro.py '$(find lcsr_barrett)/sim/wam7_sim.urdf.xacro' prefix:=wam2 xyz:='0.04 -0.46 1' ops_script:='$(find lcsr_barrett)/sim/wam7_arm2_sim_ik.ops' hand:=$(arg hand) component_name:=w2barrett_manager bhand_script:='$(find lcsr_barrett)/sim/bhand_arm2_sim.ops'" />
 <!--sim/wam7_arm2_sim_ik.ops-->
   
-  <!-- Spawn the robot in Gazebo -->
-  <node name="$(anon urdf_spawner)" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
-    args="-urdf -model wam2 -param wam2_robot_description"/>
-
+    <!-- Spawn the robot in Gazebo -->
+    <node name="$(anon urdf_spawner)" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
+      args="-urdf -model wam2 -param w2barrett_manager/robot_description"/>
+  </group>
 
   <!-- Spawn the lcsr stage in Gazebo -->
   <param name="stage_model" 
@@ -64,7 +66,6 @@
       <arg name="hand" value="$(arg hand)"/>
       <arg name="tf_prefix" value="wam2"/>
       <arg name="oro_prefix" value="w2"/>
-      <arg name="desc_prefix" value="wam2_"/>
     </include>
 
     <!-- RTT Component parameters -->

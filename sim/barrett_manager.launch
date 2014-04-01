@@ -31,7 +31,6 @@
         ["wam/joint_states", "hand/joint_states"]
       </rosparam>
       <param name="rate" value="50"/>
-      <remap from="$(arg desc_prefix)robot_description" to="/robot_description"/>
     </node>
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
       <param name="publish_frequency" value="50"/>
