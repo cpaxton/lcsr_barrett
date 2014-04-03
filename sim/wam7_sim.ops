@@ -17,7 +17,7 @@ scheme.configure();
 
 /* Load barrett manager, 7-dof wam */
 runScript(ros.find("lcsr_barrett")+"/ops/barrett_sim_manager.ops");
-runScript(ros.find("lcsr_barrett")+"/ops/wam7x2.ops");
+runScript(ros.find("lcsr_barrett")+"/ops/wam7.ops");
 load_effort_sum("");
 
 /* Load controllers */
@@ -29,8 +29,8 @@ scheme.start();
 
 /* Set of initially running blocks */
 scheme.enableBlock("devices",true);
-//scheme.enableBlock("joint_control",true);
-scheme.enableBlock("ik_control",true);
+scheme.enableBlock("joint_control",true);
+//scheme.enableBlock("ik_control",true);
 //scheme.enableBlock("cart_imp_control",true);
 
 /* Start the WAM */
