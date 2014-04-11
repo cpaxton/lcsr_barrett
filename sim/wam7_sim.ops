@@ -29,11 +29,15 @@ scheme.start();
 
 /* Set of initially running blocks */
 scheme.enableBlock("devices",true);
-scheme.enableBlock("joint_control",true);
+//scheme.enableBlock("traj_rml",true);
+scheme.enableBlock("inverse_dynamics",true);
+scheme.enableBlock("pid",true);
+//scheme.enableBlock("joint_control",true);
 //scheme.enableBlock("ik_control",true);
 //scheme.enableBlock("cart_imp_control",true);
 
 /* Start the WAM */
 barrett_manager.wam.initialize()
 barrett_manager.wam.run()
+
 
