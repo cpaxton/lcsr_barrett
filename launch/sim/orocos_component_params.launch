@@ -218,7 +218,7 @@
         ["joint_state_desired", "hand/joint_states"]
       </rosparam>
       <param name="rate" value="10"/>
-      <remap from="robot_description" to="/robot_description"/>
+      <remap from="robot_description" to="$(arg tf_prefix)/robot_description"/>
       <remap from="joint_states" to="joint_state_desired_full"/>
     </node>
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="$(anon robot_state_publisher)">
