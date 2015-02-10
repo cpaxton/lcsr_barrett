@@ -32,6 +32,8 @@
   <arg name="j4" default="0.0" doc="(float) Joint 4 initial position"/>
   <arg name="j5" default="0.0" doc="(float) Joint 5 initial position"/>
   <arg name="j6" default="0.0" doc="(float) Joint 6 initial position"/>
+  <arg name="initial_joint_positions_left" default="$(arg j0), $(arg j1), $(arg j2), $(arg j3), $(arg j4), $(arg j5), $(arg j6)" doc="(comma-separated floats) Initial joint positions"/>
+  <arg name="initial_joint_positions_right" default="$(arg j0), $(arg j1), $(arg j2), $(arg j3), $(arg j4), $(arg j5), $(arg j6)" doc="(comma-separated floats) Initial joint positions"/>
 
   <param name="use_sim_time" value="true"/>
 
@@ -62,6 +64,7 @@
     <arg name="j4" value="$(arg j4)"/>
     <arg name="j5" value="$(arg j5)"/>
     <arg name="j6" value="$(arg j6)"/>
+    <arg name="initial_joint_positions" value="$(arg initial_joint_positions_left"/>
     <arg name="x" value="0.04"/>
     <arg name="y" value="0.46"/>
     <arg name="z" value="1.00"/>
@@ -86,6 +89,7 @@
     <arg name="j4" value="$(arg j4)"/>
     <arg name="j5" value="$(arg j5)"/>
     <arg name="j6" value="$(arg j6)"/>
+    <arg name="initial_joint_positions" value="$(arg initial_joint_positions_right"/>
     <arg name="x" value="0.04"/>
     <arg name="y" value="-0.46"/>
     <arg name="z" value="1.00"/>
@@ -94,7 +98,6 @@
     <arg name="lua_script" value="$(find lcsr_barrett)/lua/wam2_sim.lua"/>
     <arg name="rescuer" value="$(arg rescuer)"/>
   </include>
-
 
   <!-- Spawn the lcsr stage in Gazebo -->
   <param name="stage_model"
