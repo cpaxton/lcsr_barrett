@@ -32,7 +32,7 @@
   <arg name="j4" default="0.0" doc="(float) Joint 4 initial position"/>
   <arg name="j5" default="0.0" doc="(float) Joint 5 initial position"/>
   <arg name="j6" default="0.0" doc="(float) Joint 6 initial position"/>
-  <arg name="initial_joint_positions_left" default="$(arg j0), $(arg j1), $(arg j2), $(arg j3), $(arg j4), $(arg j5), $(arg j6)" doc="(comma-separated floats) Initial joint positions"/>
+  <arg name="initial_joint_positions" default="$(arg j0), $(arg j1), $(arg j2), $(arg j3), $(arg j4), $(arg j5), $(arg j6)" doc="(comma-separated floats) Initial joint positions"/>
   <arg name="initial_joint_positions_right" default="$(arg j0), $(arg j1), $(arg j2), $(arg j3), $(arg j4), $(arg j5), $(arg j6)" doc="(comma-separated floats) Initial joint positions"/>
 
   <param name="use_sim_time" value="true"/>
